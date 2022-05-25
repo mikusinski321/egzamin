@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en" datatype="plaintext" original="file.ext">
+    <body>
+      <trans-unit id="label.actions">
+        <source>label.actions</source>
+        <target>Actions</target>
+      </trans-unit>
+      <trans-unit id="label.id">
+        <source>label.id</source>
+        <target>Id</target>
+      </trans-unit>
+      <trans-unit id="label.title">
+        <source>label.title</source>
+        <target>Title</target>
+      </trans-unit>
+      <trans-unit id="label.quantity">
+        <source>label.quantity</source>
+        <target>Quantity</target>
+      </trans-unit>
+      <trans-unit id="label.author">
+        <source>label.author</source>
+        <target>Author</target>
+      </trans-unit>
+       <trans-unit id="label.publisher">
+        <source>label.publisher</source>
+        <target>Publisher</target>
+      </trans-unit>
+       <trans-unit id="label.description">
+        <source>label.description</source>
+        <target>Description</target>
+      </trans-unit>
+      <trans-unit id="message.empty_list">
+        <source>message.empty_list</source>
+        <target>List is empty</target>
+      </trans-unit>
+      <trans-unit id="message.item_not_found">
+        <source>message.item_not_found</source>
+        <target>Item not found</target>
+      </trans-unit>
+      <trans-unit id="message.back_to_list">
+        <source>message.back_to_list</source>
+        <target>Back to list</target>
+      </trans-unit>
+      <trans-unit id="message.item_view">
+        <source>message.item_view</source>
+        <target>View item</target>
+      </trans-unit>
+      <trans-unit id="title.item_list">
+        <source>title.item_list</source>
+        <target>Items</target>
+      </trans-unit>
+      <trans-unit id="title.item_view">
+        <source>title.item_view</source>
+        <target>Item view #%id%</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
