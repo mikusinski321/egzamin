@@ -5,30 +5,41 @@
 {% endblock %}
 
 {% block body %}
-    <h1>{{ 'title.item_list'|trans }}</h1>
     {% if pagination is defined and pagination.items|length %}
-
-      <div class="navigation text-center">
-            {{ knp_pagination_render(pagination) }}
-        </div>
-
+        <h1>{{ 'title.item_list'|trans }}</h1>
+        {% if(is_granted('IS_AUTHENTICATED_FULLY')) %}
+        <a href={{url('item_create')}} title="{{'message.item_create'|trans}}">{{'message.item_create'|trans}}</a>
+        {% endif %}
         <table class="table table-striped">
             <thead>
             <tr>
                 <th>{{ knp_pagination_sortable(pagination, 'label.title'|trans, 'item.title') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.author'|trans, 'item.author') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.quantity'|trans, 'item.quantity') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.category'|trans, 'category.name') }}</th>
                 <th scope="col">
                     {{ 'label.actions'|trans }}
                 </th>
             </tr>
             </thead>
             <tbody>
-            {% for item in items %}
+            {% for item in pagination.items %}
                 <tr>
                 <td>{{ item.title }}</td>
                 <td>{{ item.author }}</td>
-                    <td><a href={{url('item_show',{'id':item.id})}} title="{{'message.item_view'|trans}}">{{'message.item_view'|trans}}</a></td>
-                </tr>
+                <td>{{ item.quantity }}</td>
+                <td><a href="{{ url('item_index', {'filters.category_id' : item.category.id}) }}" title="{{ item.category.name }}">{{ item.category.name }}</a></td><td>
+                {% if(is_granted('IS_AUTHENTICATED_FULLY')) %}
+                    <a href={{url('item_edit',{'id':item.id})}} title="{{'message.item_edit'|trans}}">{{'message.item_edit'|trans}}</a>
+                    <a href={{url('item_delete',{'id':item.id})}} title="{{'message.item_delete'|trans}}">{{'message.item_delete'|trans}}</a>
+                {% else %}
+                    {% if(item.quantity>0) %}
+                        <a href={{url('item_order',{'id':item.id})}} title="{{'message.item_order'|trans}}">{{'message.item_order'|trans}}</a>
+                    {% else %}
+                        {{ 'message.item_unavailable'|trans }}
+                    {% endif %}
+                {% endif %}
+                <a href={{url('item_show',{'id':item.id})}} title="{{'message.item_show'|trans}}">{{'message.item_show'|trans}}</a></td></tr>
             {% endfor %}
             </tbody>
         </table>
@@ -41,5 +52,10 @@
         <p>
             {{ 'message.empty_list'|trans }}
         </p>
+    {% endif %}
+    <a href={{url('item_index')}} title="{{'message.to_items'|trans}}">{{'message.to_items'|trans}}</a>
+    <a href={{url('category_index')}} title="{{'message.to_categories'|trans}}">{{'message.to_categories'|trans}}</a>
+    {% if(is_granted('IS_AUTHENTICATED_FULLY')) %}
+    <a href={{url('order_index')}} title="{{'message.to_orders'|trans}}">{{'message.to_orders'|trans}}</a>        
     {% endif %}
 {% endblock  %}

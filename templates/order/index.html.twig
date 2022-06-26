@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ 'title.category_list'|trans }}
+{% endblock %}
+
+{% block body %}
+   {% if pagination is defined and pagination.items|length %}
+    <h1>{{ 'title.order_list'|trans }}</h1>
+        {% if(is_granted('IS_AUTHENTICATED_FULLY')) %}
+        {% endif %}
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'order.id') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.item'|trans, 'item.title') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.status'|trans, 'status.name') }}</th>
+                <th scope="col">{{ 'label.actions'|trans }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in pagination.items %}
+                <tr>
+                <td>{{ item.id }}</td>
+                <td>{{ item.item.title }}</td>
+                <td>{{ item.status.name }}</td><td>
+                {% if(item.status.id==0) %}
+                <a href={{url('order_accept',{'id':item.id})}} title="{{'message.order_accept'|trans}}">{{'message.order_accept'|trans}}</a>
+                <a href={{url('order_deny',{'id':item.id})}} title="{{'message.order_deny'|trans}}">{{'message.order_deny'|trans}}</a>
+                {% elseif(item.status.id==1)%}
+                <a href={{url('order_return',{'id':item.id})}} title="{{'message.order_return'|trans}}">{{'message.order_return'|trans}}</a>
+                {% endif %}
+                <a href={{url('order_show',{'id':item.id})}} title="{{'message.order_show'|trans}}">{{'message.order_show'|trans}}</a></td>               
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="navigation text-center">
+        {{ knp_pagination_render(pagination) }}
+        </div>
+
+    {% else %}
+        <p>
+            {% include 'default/_single_alert_message.html.twig' with {
+            type: 'warning',
+            message: 'message.empty_list'|trans
+            } %}
+        </p>
+    {% endif %}
+    <a href={{url('item_index')}} title="{{'message.to_items'|trans}}">{{'message.to_items'|trans}}</a>
+    <a href={{url('category_index')}} title="{{'message.to_categories'|trans}}">{{'message.to_categories'|trans}}</a>
+{% endblock  %}

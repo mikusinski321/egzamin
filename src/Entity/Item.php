@@ -1,128 +1,220 @@
 <?php
+/**
+ * Item entity.
+ */
 
 namespace App\Entity;
 
 use App\Repository\ItemRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * Class Item.
+ *
+ * @psalm-suppress MissingConstructor
+ */
 #[ORM\Entity(repositoryClass: ItemRepository::class)]
-#[ORM\Table(name: 'items')]
 class Item
 {
+    /**
+     * Primary key.
+     *
+     * @var int|null
+     */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private ?int $id = null;
 
-    #[ORM\Column(type: 'integer')]
-    private $item_id;
-
-    #[ORM\Column(type: 'integer')]
-    private $category_id;
-
-    #[ORM\Column(type: 'datetime')]
-    private $create_time;
-
-    #[ORM\Column(type: 'integer')]
-    private $quantity;
-
+    /**
+     * Title.
+     *
+     * @var string|null
+     */
     #[ORM\Column(type: 'string', length: 45)]
-    private $title;
+    #[Assert\Type('string')]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 3, max: 45)]
+    private ?string $title = null;
 
+    /**
+     * Created at.
+     *
+     * @var DateTimeImmutable|null
+     *
+     * @psalm-suppress PropertyNotSetInConstructor
+     */
+    #[ORM\Column(type: 'datetime_immutable')]
+    #[Assert\Type(DateTimeImmutable::class)]
+    #[Gedmo\Timestampable(on: 'create')]
+    private ?DateTimeImmutable $createdAt;
+
+    /**
+     * Quantity.
+     *
+     * @var int|null
+     */
+    #[ORM\Column(type: 'integer')]
+    private ?int $quantity = null;
+
+    /**
+     * Author.
+     *
+     * @var string|null
+     */
     #[ORM\Column(type: 'string', length: 45)]
-    private $author;
+    private ?string $author = null;
 
+    /**
+     * Publisher.
+     *
+     * @var string|null
+     */
     #[ORM\Column(type: 'string', length: 45)]
-    private $publisher;
+    #[Assert\Length(min: 3, max: 45)]
+    private ?string $publisher = null;
 
+    /**
+     * Category.
+     *
+     * @var Category|null
+     */
+    #[ORM\ManyToOne(
+        targetEntity: Category::class,
+        fetch: 'EXTRA_LAZY'
+    )]
+    private ?Category $category = null;
+
+    /**
+     * Getter for Id.
+     *
+     * @return int|null Id
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getItemId(): ?int
+    /**
+     * Setter for created at.
+     *
+     * @param DateTimeImmutable|null $createdAt Created at
+     */
+    public function setCreatedAt(?DateTimeImmutable $createdAt): void
     {
-        return $this->item_id;
+        $this->createdAt = $createdAt;
     }
 
-    public function setItemId(int $item_id): self
+    /**
+     * Getter for created at.
+     *
+     * @return DateTimeImmutable|null $createdAt Created at
+     */
+    public function getCreatedAt(): ?DateTimeImmutable
     {
-        $this->item_id = $item_id;
-
-        return $this;
+        return $this->createdAt;
     }
 
-    public function getCategoryId(): ?int
-    {
-        return $this->category_id;
-    }
-
-    public function setCategoryId(int $category_id): self
-    {
-        $this->category_id = $category_id;
-
-        return $this;
-    }
-
-    public function getCreateTime(): ?\DateTimeInterface
-    {
-        return $this->create_time;
-    }
-
-    public function setCreateTime(\DateTimeInterface $create_time): self
-    {
-        $this->create_time = $create_time;
-
-        return $this;
-    }
-
+    /**
+     * Getter for Quantity.
+     *
+     * @return int|null quantity
+     */
     public function getQuantity(): ?int
     {
         return $this->quantity;
     }
 
-    public function setQuantity(int $quantity): self
+    /**
+     * Setter for quantity.
+     *
+     * @param int|null $quantity Quantity
+     */
+    public function setQuantity(?int $quantity): void
     {
         $this->quantity = $quantity;
-
-        return $this;
     }
 
+    /**
+     * Setter for title.
+     *
+     * @param string|null $title Title
+     */
+    public function setTitle(?string $title): void
+    {
+        $this->title = $title;
+    }
+
+    /**
+     * Getter for Quantity.
+     *
+     * @return string|null title
+     */
     public function getTitle(): ?string
     {
         return $this->title;
     }
 
-    public function setTitle(string $title): self
+    /**
+     * Setter for author.
+     *
+     * @param string|null $author Author
+     */
+    public function setAuthor(?string $author): void
     {
-        $this->title = $title;
-
-        return $this;
+        $this->author = $author;
     }
 
+    /**
+     * Getter for author.
+     *
+     * @return string|null $author Author
+     */
     public function getAuthor(): ?string
     {
         return $this->author;
     }
 
-    public function setAuthor(string $author): self
+    /**
+     * Setter for publisher.
+     *
+     * @param string|null $publisher Publisher
+     */
+    public function setPublisher(?string $publisher): void
     {
-        $this->author = $author;
-
-        return $this;
+        $this->publisher = $publisher;
     }
 
+    /**
+     * Getter for publisher.
+     *
+     * @return string|null $publisher Publisher
+     */
     public function getPublisher(): ?string
     {
         return $this->publisher;
     }
 
-    public function setPublisher(string $publisher): self
+    /**
+     * Setter for category.
+     *
+     * @param Category|null $category Category
+     */
+    public function setCategory(?Category $category): void
     {
-        $this->publisher = $publisher;
-
-        return $this;
+        $this->category = $category;
     }
 
+    /**
+     * Getter for category.
+     *
+     * @return Category|null $category Category
+     */
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
 }

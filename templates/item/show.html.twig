@@ -1,28 +1,30 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    {{ 'title.item_view'|trans({'%id%': item.id|default('')}) }}    
+    {{ 'title.item_details: %title%'|trans({'%title%': item.title|default('')}) }}
 {% endblock %}
 
 {% block body %}
-    <h1> {{ 'title.item_view'|trans({'%id%': item.id|default('')}) }}</h1>
+    <h1>{{ 'title.item_details: %title%'|trans({'%title%': item.title|default('')}) }}</h1>
     {% if item is defined and item|length %}
-        <dl>
+        <dl class="dl-horizontal">
+            <dt>{{ 'label.id'|trans }}</dt>
+            <dd>{{ item.id }}</dd>
+            <dt>{{ 'label.created_at'|trans }}</dt>
+            <dd>{{ item.createdAt|date('Y/m/d') }}</dd>
             <dt>{{ 'label.title'|trans }}</dt>
-            <dd>{{ item.title }}</dd>
+            <dd>{{  item.title }}</dd>
             <dt>{{ 'label.author'|trans }}</dt>
-            <dd>{{ item.author }}</dd>
+            <dd>{{  item.author }}</dd>
             <dt>{{ 'label.publisher'|trans }}</dt>
-            <dd>{{ item.publisher }}</dd>
+            <dd>{{  item.publisher }}</dd>
             <dt>{{ 'label.quantity'|trans }}</dt>
-            <dd>{{ item.quantity }}</dd>
-            <dt>{{ 'label.quantity'|trans }}</dt>
-            <dd>{{ item.create_time|format_date('long') }}</dd>
+            <dd>{{  item.quantity }}</dd>
         </dl>
-            <p><a href={{url('item_index')}} title='back_to_list'>{{'message.back_to_list'|trans}}</a></p>
     {% else %}
         <p>
-            {{'message.item_not_found'|trans}}
+            {{ 'message.item_not_found'|trans }}
         </p>
     {% endif %}
+        <p><a href={{url('item_index')}} >{{'message.back_to_list'|trans}}</a></p>
 {% endblock %}

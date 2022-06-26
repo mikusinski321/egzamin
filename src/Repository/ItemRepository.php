@@ -1,9 +1,15 @@
 <?php
+/**
+ * Item repository.
+ */
 
 namespace App\Repository;
 
 use App\Entity\Item;
+use App\Entity\Category;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -17,7 +23,7 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ItemRepository extends ServiceEntityRepository
 {
-        /**
+    /**
      * Items per page.
      *
      * Use constants to define configuration options that rarely change instead
@@ -26,38 +32,97 @@ class ItemRepository extends ServiceEntityRepository
      *
      * @constant int
      */
-    public const PAGINATOR_ITEMS_PER_PAGE = 4;
+    public const PAGINATOR_ITEMS_PER_PAGE = 6;
+
+    /**
+     * Constructor.
+     *
+     * @param ManagerRegistry $registry Manager registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Item::class);
     }
 
-    public function add(Item $entity, bool $flush = false): void
+    /**
+     * Save entity.
+     *
+     * @param Item $item Item entity
+     */
+    public function save(Item $item): void
     {
-        $this->getEntityManager()->persist($entity);
-
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
+        $this->_em->persist($item);
+        $this->_em->flush();
     }
 
-    public function remove(Item $entity, bool $flush = false): void
+    /**
+     * Delete entity.
+     *
+     * @param Item $item Item entity
+     */
+    public function delete(Item $item): void
     {
-        $this->getEntityManager()->remove($entity);
-
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
+        $this->_em->remove($item);
+        $this->_em->flush();
     }
-        /**
+
+    /**
      * Query all records.
+     *
+     * @param array<string, object> $filters Filters
      *
      * @return QueryBuilder Query builder
      */
-    public function queryAll(): QueryBuilder
+    public function queryAll(array $filters): QueryBuilder
     {
-        return $this->getOrCreateQueryBuilder()
-            ->orderBy('item.updatedAt', 'DESC');
+        $queryBuilder = $this->getOrCreateQueryBuilder()
+            ->select(
+                'partial item.{id, title, author, quantity, createdAt}',
+                'partial category.{id, name}'
+            )
+            ->join('item.category', 'category')
+            ->orderBy('item.createdAt', 'DESC');
+
+        return $this->applyFiltersToList($queryBuilder, $filters);
+    }
+
+    /**
+     * Count tasks by category.
+     *
+     * @param Category $category Category
+     *
+     * @return int Number of tasks in category
+     *
+     * @throws NoResultException
+     * @throws NonUniqueResultException
+     */
+    public function countByCategory(Category $category): int
+    {
+        $qb = $this->getOrCreateQueryBuilder();
+
+        return $qb->select($qb->expr()->countDistinct('item.id'))
+            ->where('item.category = :category')
+            ->setParameter(':category', $category)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /**
+     * Apply filters to paginated list.
+     *
+     * @param QueryBuilder          $queryBuilder Query builder
+     * @param array<string, object> $filters      Filters array
+     *
+     * @return QueryBuilder Query builder
+     */
+    private function applyFiltersToList(QueryBuilder $queryBuilder, array $filters = []): QueryBuilder
+    {
+        if (isset($filters['category']) && $filters['category'] instanceof Category) {
+            $queryBuilder->andWhere('category = :category')
+                ->setParameter(':category', $filters['category']);
+        }
+
+        return $queryBuilder;
     }
 
     /**
@@ -71,29 +136,4 @@ class ItemRepository extends ServiceEntityRepository
     {
         return $queryBuilder ?? $this->createQueryBuilder('item');
     }
-
-//    /**
-//     * @return Item[] Returns an array of Item objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('i')
-//            ->andWhere('i.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('i.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Item
-//    {
-//        return $this->createQueryBuilder('i')
-//            ->andWhere('i.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }

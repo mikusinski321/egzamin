@@ -6,54 +6,61 @@
 namespace App\DataFixtures;
 
 use App\Entity\Item;
+use App\Entity\Category;
 use DateTimeImmutable;
-use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Persistence\ObjectManager;
-use Faker\Factory;
-use Faker\Generator;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 /**
  * Class ItemFixtures.
+ *
+ * @psalm-suppress MissingConstructor
  */
-class ItemFixtures extends Fixture
+class ItemFixtures extends AbstractBaseFixtures implements DependentFixtureInterface
 {
     /**
-     * Faker.
+     * Load data.
      *
-     * @var Generator
+     * @psalm-suppress PossiblyNullPropertyFetch
+     * @psalm-suppress PossiblyNullReference
+     * @psalm-suppress UnusedClosureParam
      */
-    protected Generator $faker;
-
-    /**
-     * Persistence object manager.
-     *
-     * @var ObjectManager
-     */
-    protected ObjectManager $manager;
-
-    /**
-     * Load.
-     *
-     * @param ObjectManager $manager Persistence object manager
-     */
-    public function load(ObjectManager $manager): void
+    public function loadData(): void
     {
-        $this->faker = Factory::create();
-
-        for ($i = 0; $i < 15; ++$i) {
-            $item = new Item();
-            $item->setItemId($i);
-            $item->setCategoryId(rand(0,5));
-            $item->setTitle($this->faker->name);
-            $item->setPublisher($this->faker->name);
-            $item->setAuthor($this->faker->name);
-            $item->setCreateTime(
-                DateTimeImmutable::createFromMutable($this->faker->dateTimeBetween('-100 days', '-1 days'))
-            );
-            $item->setQuantity(rand(0,500));
-            $manager->persist($item);
+        if (null === $this->manager || null === $this->faker) {
+            return;
         }
 
-        $manager->flush();
+        $this->createMany(100, 'items', function () {
+            $item = new Item();
+            $item->setTitle($this->faker->unique()->word);
+            $item->setPublisher($this->faker->name);
+            $item->setAuthor($this->faker->name);
+            $item->setCreatedAt(
+                DateTimeImmutable::createFromMutable(
+                    $this->faker->dateTimeBetween('-100 days', '-1 days')
+                )
+            );
+            $item->setQuantity(rand(0, 500));
+            /** @var Category $category */
+            $category = $this->getRandomReference('categories');
+            $item->setCategory($category);
+
+            return $item;
+        });
+
+        $this->manager->flush();
+    }
+
+    /**
+     * This method must return an array of fixtures classes
+     * on which the implementing class depends on.
+     *
+     * @return string[] of dependencies
+     *
+     * @psalm-return array{0: CategoryFixtures::class}
+     */
+    public function getDependencies(): array
+    {
+        return [CategoryFixtures::class];
     }
 }

@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ 'title.category_details: %name%'|trans({'%name%': category.name|default('')}) }}
+{% endblock %}
+
+{% block body %}
+    {% if category is defined and category|length %}
+        <h1>{{ 'title.category_details: %name%'|trans({'%name%': category.name|default('')}) }}</h1>
+        <dl>
+            <dt>{{ 'label.id'|trans }}</dt>
+            <dd>{{ category.id }}</dd>
+            <dt>{{ 'label.name'|trans }}</dt>
+            <dd>{{ category.name }}</dd>
+            <dt>{{ 'label.create_time'|trans }}</dt>
+            <dd>{{ category.createdAt|format_date('long') }}</dd>
+        </dl>
+    {% else %}
+        <p>
+            {{'message.category_not_found'|trans}}
+        </p>
+    {% endif %}
+    <p><a href={{url('category_index')}}>{{'message.back_to_list'|trans}}</a></p>
+{% endblock %}

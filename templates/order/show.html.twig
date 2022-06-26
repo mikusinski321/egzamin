@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ 'title.order_details: %id%'|trans({'%id%': order.id|default('')}) }}
+{% endblock %}
+
+{% block body %}
+    {% if order is defined and order|length %}
+        <h1>{{ 'title.order_details: %id%'|trans({'%id%': order.id|default('')}) }}</h1>
+        <dl>
+            <dt>{{ 'label.id'|trans }}</dt>
+            <dd>{{ order.id }}</dd>
+            <dt>{{ 'label.nick'|trans }}</dt>
+            <dd>{{ order.nick }}</dd>
+            <dt>{{ 'label.email'|trans }}</dt>
+            <dd>{{ order.email }}</dd>
+            <dt>{{ 'label.comment'|trans }}</dt>
+            <dd>{{ order.comment }}</dd>
+            <dt>{{ 'label.item'|trans }}</dt>
+            <dd>{{ order.item.title }}</dd>
+            <dt>{{ 'label.status'|trans }}</dt>
+            <dd>{{ order.status.name }}</dd>
+        </dl>
+    {% else %}
+        <p>
+            {{'message.order_not_found'|trans}}
+        </p>
+    {% endif %}
+    <p><a href={{url('order_index')}}>{{'message.back_to_list'|trans}}</a></p>
+{% endblock %}

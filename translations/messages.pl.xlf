@@ -1,0 +1,323 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en" datatype="plaintext" original="file.ext">
+    <body>
+      <trans-unit id="label.actions">
+        <source>label.actions</source>
+        <target>Akcje</target>
+      </trans-unit>
+      <trans-unit id="label.id">
+        <source>label.id</source>
+        <target>Id</target>
+      </trans-unit>
+      <trans-unit id="label.title">
+        <source>label.title</source>
+        <target>Tytuł</target>
+      </trans-unit>
+      <trans-unit id="label.quantity">
+        <source>label.quantity</source>
+        <target>Ilość</target>
+      </trans-unit>
+      <trans-unit id="label.author">
+        <source>label.author</source>
+        <target>Autor</target>
+      </trans-unit>
+       <trans-unit id="label.publisher">
+        <source>label.publisher</source>
+        <target>Wydawca</target>
+      </trans-unit>
+       <trans-unit id="label.description">
+        <source>label.description</source>
+        <target>Opis</target>
+      </trans-unit>
+      <trans-unit id="message.empty_list">
+        <source>message.empty_list</source>
+        <target>Lista jest pusta</target>
+      </trans-unit>
+      <trans-unit id="message.item_not_found">
+        <source>message.item_not_found</source>
+        <target>Nie znaleziono przedmiotu</target>
+      </trans-unit>
+      <trans-unit id="message.back_to_list">
+        <source>message.back_to_list</source>
+        <target>Powrót do listy</target>
+      </trans-unit>
+      <trans-unit id="message.item_view">
+        <source>message.item_view</source>
+        <target>Szczegóły</target>
+      </trans-unit>
+      <trans-unit id="message.item_edit">
+        <source>message.item_edit</source>
+        <target>Edytuj</target>
+      </trans-unit>
+      <trans-unit id="message.item_delete">
+        <source>message.item_delete</source>
+        <target>Usuń</target>
+      </trans-unit>
+      <trans-unit id="title.item_list">
+        <source>title.item_list</source>
+        <target>Przedmioty</target>
+      </trans-unit>
+      <trans-unit id="title.item_view">
+        <source>title.item_view</source>
+        <target>Przedmiot #%id%</target>
+      </trans-unit>
+        <trans-unit id="label.create_time">
+        <source>label.create_time</source>
+        <target>Czas utworzenia</target>
+      </trans-unit>
+       <trans-unit id="label.category">
+        <source>label.category</source>
+        <target>Kategoria</target>
+      </trans-unit>
+       <trans-unit id="title.category_list">
+        <source>title.category_list</source>
+        <target>Kategorie</target>
+      </trans-unit>
+       <trans-unit id="label.name">
+        <source>label.name</source>
+        <target>Nazwa</target>
+      </trans-unit>
+      <trans-unit id="message.created_successfully">
+        <source>message.created_successfully</source>
+        <target>Pomyślnie utworzono</target>
+      </trans-unit>
+      <trans-unit id="message.page_not_found">
+        <source>message.page_not_found</source>
+        <target>Nie znaleziono strony</target>
+      </trans-unit>
+      <trans-unit id="message.category_contains_items">
+        <source>message.category_contains_items</source>
+        <target>Kategoria zawiera przedmioty</target>
+      </trans-unit>
+      <trans-unit id="message.deleted_successfully">
+        <source>message.deleted_successfully</source>
+        <target>Pomyślnie usunięto</target>
+      </trans-unit>
+      <trans-unit id="message.edited_successfully">
+        <source>message.edited_successfully</source>
+        <target>Pomyślnie edytowano</target>
+      </trans-unit>
+      <trans-unit id="message.orders_contains_item">
+        <source>message.orders_contains_item</source>
+        <target>Zamówienia zawierają przedmiot</target>
+      </trans-unit>
+      <trans-unit id="message.ordered_successfully">
+        <source>message.ordered_successfully</source>
+        <target>Pomyślnie zamówiono</target>
+      </trans-unit>
+      <trans-unit id="message.accepted_successfully">
+        <source>message.accepted_successfully</source>
+        <target>Pomyślnie zatwierdzono</target>
+      </trans-unit>
+      <trans-unit id="message.denied_successfully">
+        <source>message.denied_successfully</source>
+        <target>Pomyślnie odmówiono</target>
+      </trans-unit>
+      <trans-unit id="message.returned_successfully">
+        <source>message.returned_successfully</source>
+        <target>Pomyślnie zwrócono</target>
+      </trans-unit>
+      <trans-unit id="message.changed_successfully">
+        <source>message.changed_successfully</source>
+        <target>Pomyślnie zmieniono</target>
+      </trans-unit>
+      <trans-unit id="title.logged_as">
+        <source>title.logged_as</source>
+        <target>Zalogowany jako</target>
+      </trans-unit>
+      <trans-unit id="action.change_password">
+        <source>action.change_password</source>
+        <target>Zmiana hasła</target>
+      </trans-unit>
+      <trans-unit id="action_logout">
+        <source>action_logout</source>
+        <target>Wyloguj</target>
+      </trans-unit>
+      <trans-unit id="action_login">
+        <source>action_login</source>
+        <target>Zaloguj się</target>
+      </trans-unit>
+      <trans-unit id="title.category_create">
+        <source>title.category_create</source>
+        <target>Stwórz kategorię</target>
+      </trans-unit>
+      <trans-unit id="action.save">
+        <source>action.save</source>
+        <target>Zapisz</target>
+      </trans-unit>
+      <trans-unit id="action.delete">
+        <source>action.delete</source>
+        <target>Usuń</target>
+      </trans-unit>
+      <trans-unit id="title.category_edit: %name%">
+        <source>title.category_edit: %name%</source>
+        <target>Edycja kategorii: %name%</target>
+      </trans-unit>
+      <trans-unit id="action.edit">
+        <source>action.edit</source>
+        <target>Edytuj</target>
+      </trans-unit>
+      <trans-unit id="message.category_create">
+        <source>message.category_create</source>
+        <target>Stwórz kategorię</target>
+      </trans-unit>
+      <trans-unit id="message.view_items">
+        <source>message.view_items</source>
+        <target>Przedmioty</target>
+      </trans-unit>
+      <trans-unit id="message.category_show">
+        <source>message.category_show</source>
+        <target>Szczegóły</target>
+      </trans-unit>
+      <trans-unit id="message.to_items">
+        <source>message.to_items</source>
+        <target>Zobacz przedmioty</target>
+      </trans-unit>
+      <trans-unit id="message.to_categories">
+        <source>message.to_categories</source>
+        <target>Zobacz kategorie</target>
+      </trans-unit>
+      <trans-unit id="message.to_orders">
+        <source>message.to_orders</source>
+        <target>Zobacz zamówienia</target>
+      </trans-unit>
+      <trans-unit id="title.category_details: %name%">
+        <source>title.category_details: %name%</source>
+        <target>Szczegóły kategorii: %name%</target>
+      </trans-unit>
+      <trans-unit id="message.category_not_found">
+        <source>message.category_not_found</source>
+        <target>Nie znaleziono kategorii</target>
+      </trans-unit>
+      <trans-unit id="message.form_error">
+        <source>message.form_error</source>
+        <target>Błędne dane</target>
+      </trans-unit>
+      <trans-unit id="action.back_to_list">
+        <source>action.back_to_list</source>
+        <target>Powrót do listy</target>
+      </trans-unit>
+      <trans-unit id="title.item_create">
+        <source>title.item_create</source>
+        <target>Dodaj przedmiot</target>
+      </trans-unit>
+      <trans-unit id="title.sure_delete_item: %title%?">
+        <source>title.sure_delete_item: %title%?</source>
+        <target>Czy na pewno chcesz usunąć przedmiot: %title%?</target>
+      </trans-unit>
+      <trans-unit id="title.sure_delete_category: %name%?">
+       <source>title.sure_delete_category: %name%?</source>
+       <target>Czy na pewno chcesz usunąć kategorię: %name%?</target>
+      </trans-unit>
+      <trans-unit id="title.item_edit: %title%">
+        <source>title.item_edit: %title%</source>
+        <target>Czy na pewno chcesz edytować przedmiot: %title%?</target>
+      </trans-unit>
+      <trans-unit id="message.item_create">
+        <source>message.item_create</source>
+        <target>Stwórz przedmiot</target>
+      </trans-unit>
+      <trans-unit id="message.item_unavailable">
+        <source>message.item_unavailable</source>
+        <target>Przedmiot niedostępny</target>
+      </trans-unit>
+      <trans-unit id="message.item_show">
+        <source>message.item_show</source>
+        <target>Szczegóły</target>
+      </trans-unit>
+      <trans-unit id="message.item_order">
+        <source>message.item_order</source>
+        <target>Zarezerwuj</target>
+      </trans-unit>
+      <trans-unit id="title.item_order: %title%">
+        <source>title.item_order: %title%</source>
+        <target>Rezerwacja przedmiotu: %title%</target>
+      </trans-unit>
+      <trans-unit id="action.order">
+        <source>action.order</source>
+        <target>Zarezerwuj</target>
+      </trans-unit>
+      <trans-unit id="title.item_details: %title%">
+        <source>title.item_details: %title%</source>
+        <target>Szczegóły przedmiotu: %title%</target>
+      </trans-unit>
+      <trans-unit id="label.created_at">
+        <source>label.created_at</source>
+        <target>Utworzono</target>
+      </trans-unit>
+      <trans-unit id="title.order_confirm: %id%">
+        <source>title.order_confirm: %id%</source>
+        <target>Potwierdź rezerwację: %id%</target>
+      </trans-unit>
+      <trans-unit id="action.accept">
+        <source>action.accept</source>
+        <target>Zatwierdź</target>
+      </trans-unit>
+      <trans-unit id="title.order_list">
+        <source>title.order_list</source>
+        <target>Lista rezerwacji</target>
+      </trans-unit>
+      <trans-unit id="label.item">
+        <source>label.item</source>
+        <target>Przedmiot</target>
+      </trans-unit>
+      <trans-unit id="label.status">
+        <source>label.status</source>
+        <target>Status</target>
+      </trans-unit>
+      <trans-unit id="message.order_accept">
+        <source>message.order_accept</source>
+        <target>Zatwierdź rezerwację</target>
+      </trans-unit>
+      <trans-unit id="message.order_deny">
+        <source>message.order_deny</source>
+        <target>Odmów rezerwację</target>
+      </trans-unit>
+      <trans-unit id="message.order_return">
+        <source>message.order_return</source>
+        <target>Zwróć rezerwację</target>
+      </trans-unit>
+      <trans-unit id="message.order_show">
+        <source>message.order_show</source>
+        <target>Szczegóły</target>
+      </trans-unit>
+      <trans-unit id= "title.order_details: %id%">
+        <source>title.order_details: %id%</source>
+        <target>Szczegóły zamówienia: %id%</target>
+      </trans-unit>
+      <trans-unit id="label.nick">
+        <source>label.nick</source>
+        <target>Nick</target>
+      </trans-unit>
+      <trans-unit id="label.email">
+        <source>label.email</source>
+        <target>Email</target>
+      </trans-unit>
+      <trans-unit id="label.comment">
+        <source>label.comment</source>
+        <target>Komentarz</target>
+      </trans-unit>
+      <trans-unit id="message.order_not_found">
+        <source>message.order_not_found</source>
+        <target>Nie znaleziono zamówienia</target>
+      </trans-unit>
+      <trans-unit id="title.change_password">
+        <source>title.change_password</source>
+        <target>Zmień hasło</target>
+      </trans-unit>
+      <trans-unit id="label.password">
+        <source>label.password</source>
+        <target>Hasło</target>
+      </trans-unit>
+      <trans-unit id="label.repeat_password">
+        <source>label.repeat_password</source>
+        <target>Powtórz hasło</target>
+      </trans-unit>
+      <trans-unit id="message.passwords_dont_match">
+        <source>message.passwords_dont_match</source>
+        <target>Hasła się nie zgadzają</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
