@@ -37,7 +37,7 @@ class Item
     #[ORM\Column(type: 'string', length: 45)]
     #[Assert\Type('string')]
     #[Assert\NotBlank]
-    #[Assert\Length(min: 3, max: 45)]
+    #[Assert\Length(min: 2, max: 45)]
     private ?string $title = null;
 
     /**
@@ -66,6 +66,7 @@ class Item
      * @var string|null
      */
     #[ORM\Column(type: 'string', length: 45)]
+    #[Assert\Length(min: 2, max: 45)]
     private ?string $author = null;
 
     /**
@@ -74,7 +75,7 @@ class Item
      * @var string|null
      */
     #[ORM\Column(type: 'string', length: 45)]
-    #[Assert\Length(min: 3, max: 45)]
+    #[Assert\Length(min: 2, max: 45)]
     private ?string $publisher = null;
 
     /**

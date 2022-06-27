@@ -37,7 +37,7 @@ class Order
      */
     #[ORM\Column(type: 'string', length: 45)]
     #[Assert\Type('string')]
-    #[Assert\Length(min: 3, max: 45)]
+    #[Assert\Length(min: 2, max: 45)]
     private ?string $comment = null;
 
     /**
