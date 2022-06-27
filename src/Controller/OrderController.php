@@ -54,7 +54,7 @@ class OrderController extends AbstractController
     )]
     public function index(Request $request): Response
     {
-        if ($this->getUser() && in_array('ROLE_ADMIN', $this->getUser()->getRoles(), true)) {
+        if ($this->isGranted('ROLE_ADMIN')) {
             $pagination = $this->orderService->getPaginatedList(
                 $request->query->getInt('page', 1)
             );
@@ -80,7 +80,7 @@ class OrderController extends AbstractController
     #[Route('/{id}/accept', name: 'order_accept', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT')]
     public function accept(Request $request, Order $order): Response
     {
-        if ($this->getUser() && in_array('ROLE_ADMIN', $this->getUser()->getRoles(), true)) {
+        if ($this->isGranted('ROLE_ADMIN')) {
             $form = $this->createForm(OrderType::class, $order, [
                 'method' => 'PUT',
                 'action' => $this->generateUrl('order_accept', ['id' => $order->getId()]),
@@ -125,7 +125,7 @@ class OrderController extends AbstractController
     #[Route('/{id}/deny', name: 'order_deny', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT')]
     public function deny(Request $request, Order $order): Response
     {
-        if ($this->getUser() && in_array('ROLE_ADMIN', $this->getUser()->getRoles(), true)) {
+        if ($this->isGranted('ROLE_ADMIN')) {
             $form = $this->createForm(OrderType::class, $order, [
                 'method' => 'PUT',
                 'action' => $this->generateUrl('order_deny', ['id' => $order->getId()]),
@@ -170,7 +170,7 @@ class OrderController extends AbstractController
     #[Route('/{id}/return', name: 'order_return', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT')]
     public function return(Request $request, Order $order): Response
     {
-        if ($this->getUser() && in_array('ROLE_ADMIN', $this->getUser()->getRoles(), true)) {
+        if ($this->isGranted('ROLE_ADMIN')) {
             $form = $this->createForm(OrderType::class, $order, [
                 'method' => 'PUT',
                 'action' => $this->generateUrl('order_return', ['id' => $order->getId()]),

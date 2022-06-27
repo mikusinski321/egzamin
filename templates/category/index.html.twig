@@ -7,7 +7,7 @@
 {% block body %}
    {% if pagination is defined and pagination.items|length %}
     <h1>{{ 'title.category_list'|trans }}</h1>
-        {% if(is_granted('IS_AUTHENTICATED_FULLY')) %}
+        {% if(is_granted('ROLE_ADMIN')) %}
         <a href={{url('category_create')}} title="{{'message.category_create'|trans}}">{{'message.category_create'|trans}}</a>
         {% endif %}
         <table class="table table-striped">
@@ -22,7 +22,7 @@
                 <tr>
                 <td>{{ item.name }}</td>
                 <td><a href="{{ url('item_index', {'filters.category_id' : item.id}) }}" title="{{ item.name }}">{{'message.view_items'|trans}}</a>
-                {% if(is_granted('IS_AUTHENTICATED_FULLY')) %}
+                {% if(is_granted('ROLE_ADMIN')) %}
                 <a href={{url('category_edit',{'id':item.id})}} title="{{'message.item_edit'|trans}}">{{'message.item_edit'|trans}}</a>
                 <a href={{url('category_delete',{'id':item.id})}} title="{{'message.item_delete'|trans}}">{{'message.item_delete'|trans}}</a>        
                 {% endif %}
@@ -45,7 +45,7 @@
         </p>
     {% endif %}
     <a href={{url('item_index')}} title="{{'message.to_items'|trans}}">{{'message.to_items'|trans}}</a>
-    {% if(is_granted('IS_AUTHENTICATED_FULLY')) %}
+    {% if(is_granted('ROLE_ADMIN')) %}
     <a href={{url('order_index')}} title="{{'message.to_orders'|trans}}">{{'message.to_orders'|trans}}</a>        
     {% endif %}
 {% endblock  %}

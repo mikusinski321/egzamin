@@ -12,7 +12,7 @@
         {% endblock %}
     </head>
     <body>
-       {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+       {% if is_granted('ROLE_ADMIN') %}
             <p>{{ 'title.logged_as'|trans }} {{ app.user.email }}
                 <a href="{{url('user_changePassword',{'id':app.user.id})}}">{{ 'action.change_password'|trans }}</a>
                 <a href="{{ url('app_logout') }}">{{ 'action_logout'|trans }}</a>

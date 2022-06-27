@@ -82,7 +82,7 @@ class ItemController extends AbstractController
     #[Route('/create', name: 'item_create', methods: 'GET|POST', )]
     public function create(Request $request): Response
     {
-        if ($this->getUser() && in_array('ROLE_ADMIN', $this->getUser()->getRoles(), true)) {
+        if ($this->isGranted('ROLE_ADMIN')) {
             $item = new Item();
             $form = $this->createForm(ItemType::class, $item, ['action' => $this->generateUrl('item_create')]);
             $form->handleRequest($request);
@@ -121,7 +121,7 @@ class ItemController extends AbstractController
     #[Route('/{id}/edit', name: 'item_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT')]
     public function edit(Request $request, Item $item): Response
     {
-        if ($this->getUser() && in_array('ROLE_ADMIN', $this->getUser()->getRoles(), true)) {
+        if ($this->isGranted('ROLE_ADMIN')) {
             $form = $this->createForm(ItemType::class, $item, [
             'method' => 'PUT',
             'action' => $this->generateUrl('item_edit', ['id' => $item->getId()]),
@@ -164,7 +164,7 @@ class ItemController extends AbstractController
     #[Route('/{id}/delete', name: 'item_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|DELETE')]
     public function delete(Request $request, Item $item): Response
     {
-        if ($this->getUser() && in_array('ROLE_ADMIN', $this->getUser()->getRoles(), true)) {
+        if ($this->isGranted('ROLE_ADMIN')) {
             if (!$this->itemService->canBeDeleted($item)) {
                 $this->addFlash(
                     'warning',

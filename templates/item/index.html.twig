@@ -7,7 +7,7 @@
 {% block body %}
     {% if pagination is defined and pagination.items|length %}
         <h1>{{ 'title.item_list'|trans }}</h1>
-        {% if(is_granted('IS_AUTHENTICATED_FULLY')) %}
+        {% if(is_granted('ROLE_ADMIN')) %}
         <a href={{url('item_create')}} title="{{'message.item_create'|trans}}">{{'message.item_create'|trans}}</a>
         {% endif %}
         <table class="table table-striped">
@@ -29,7 +29,7 @@
                 <td>{{ item.author }}</td>
                 <td>{{ item.quantity }}</td>
                 <td><a href="{{ url('item_index', {'filters.category_id' : item.category.id}) }}" title="{{ item.category.name }}">{{ item.category.name }}</a></td><td>
-                {% if(is_granted('IS_AUTHENTICATED_FULLY')) %}
+                {% if(is_granted('ROLE_ADMIN')) %}
                     <a href={{url('item_edit',{'id':item.id})}} title="{{'message.item_edit'|trans}}">{{'message.item_edit'|trans}}</a>
                     <a href={{url('item_delete',{'id':item.id})}} title="{{'message.item_delete'|trans}}">{{'message.item_delete'|trans}}</a>
                 {% else %}
@@ -55,7 +55,7 @@
     {% endif %}
     <a href={{url('item_index')}} title="{{'message.to_items'|trans}}">{{'message.to_items'|trans}}</a>
     <a href={{url('category_index')}} title="{{'message.to_categories'|trans}}">{{'message.to_categories'|trans}}</a>
-    {% if(is_granted('IS_AUTHENTICATED_FULLY')) %}
+    {% if(is_granted('ROLE_ADMIN')) %}
     <a href={{url('order_index')}} title="{{'message.to_orders'|trans}}">{{'message.to_orders'|trans}}</a>        
     {% endif %}
 {% endblock  %}

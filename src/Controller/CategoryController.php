@@ -75,7 +75,7 @@ class CategoryController extends AbstractController
     )]
     public function create(Request $request): Response
     {
-        if ($this->getUser() && in_array('ROLE_ADMIN', $this->getUser()->getRoles(), true)) {
+        if ($this->isGranted('ROLE_ADMIN')) {
             $category = new Category();
             $form = $this->createForm(CategoryType::class, $category);
             $form->handleRequest($request);
@@ -115,7 +115,7 @@ class CategoryController extends AbstractController
     #[Route('/{id}/edit', name: 'category_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT')]
     public function edit(Request $request, Category $category): Response
     {
-        if ($this->getUser() && in_array('ROLE_ADMIN', $this->getUser()->getRoles(), true)) {
+        if ($this->isGranted('ROLE_ADMIN')) {
             $form = $this->createForm(CategoryType::class, $category, [
                 'method' => 'PUT',
                 'action' => $this->generateUrl('category_edit', ['id' => $category->getId()]),
@@ -160,7 +160,7 @@ class CategoryController extends AbstractController
     #[Route('/{id}/delete', name: 'category_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|DELETE')]
     public function delete(Request $request, Category $category): Response
     {
-        if ($this->getUser() && in_array('ROLE_ADMIN', $this->getUser()->getRoles(), true)) {
+        if ($this->isGranted('ROLE_ADMIN')) {
             if (!$this->categoryService->canBeDeleted($category)) {
                 $this->addFlash(
                     'warning',
