@@ -219,9 +219,17 @@ class OrderController extends AbstractController
     )]
     public function show(Order $order): Response
     {
-        return $this->render(
-            'order/show.html.twig',
-            ['order' => $order]
+        if ($this->isGranted('ROLE_ADMIN')) {
+            return $this->render(
+                'order/show.html.twig',
+                ['order' => $order]
+            );
+        }
+        $this->addFlash(
+            'warning',
+            $this->translator->trans('message.page_not_found')
         );
+
+        return $this->redirectToRoute('item_index');
     }
 }
