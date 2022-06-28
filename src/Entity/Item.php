@@ -60,6 +60,7 @@ class Item
     #[ORM\Column(type: 'integer')]
     #[Assert\Type('int')]
     #[Assert\NotBlank]
+    #[Assert\Range(min: 0)]
     private ?int $quantity = null;
 
     /**
