@@ -47,12 +47,8 @@ class ItemService implements ItemServiceInterface
      * @param CategoryServiceInterface $categoryService Category Service
      * @param OrderRepository          $orderRepository Order repository
      */
-    public function __construct(
-        ItemRepository $itemRepository,
-        PaginatorInterface $paginator,
-        CategoryServiceInterface $categoryService,
-        OrderRepository $orderRepository
-    ) {
+    public function __construct(ItemRepository $itemRepository, PaginatorInterface $paginator, CategoryServiceInterface $categoryService, OrderRepository $orderRepository)
+    {
         $this->categoryService = $categoryService;
         $this->itemRepository = $itemRepository;
         $this->paginator = $paginator;

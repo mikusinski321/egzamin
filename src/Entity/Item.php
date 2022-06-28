@@ -58,6 +58,8 @@ class Item
      * @var int|null
      */
     #[ORM\Column(type: 'integer')]
+    #[Assert\Type('int')]
+    #[Assert\NotBlank]
     private ?int $quantity = null;
 
     /**
@@ -66,6 +68,8 @@ class Item
      * @var string|null
      */
     #[ORM\Column(type: 'string', length: 45)]
+    #[Assert\Type('string')]
+    #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 45)]
     private ?string $author = null;
 
@@ -75,6 +79,8 @@ class Item
      * @var string|null
      */
     #[ORM\Column(type: 'string', length: 45)]
+    #[Assert\Type('string')]
+    #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 45)]
     private ?string $publisher = null;
 

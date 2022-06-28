@@ -25,7 +25,7 @@ class StatusFixtures extends AbstractBaseFixtures
             return;
         }
         $this->createMany(4, 'statuses', function (int $i) {
-            $names = ['Ordered', 'Accepted', 'Denied', 'Returned'];
+            $names = ['status.ordered', 'status.accepted', 'status.denied', 'status.returned'];
             $status = new Status();
             $status->setId($i);
             $status->setName($names[$i]);

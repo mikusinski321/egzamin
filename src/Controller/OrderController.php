@@ -7,8 +7,9 @@ namespace App\Controller;
 
 use App\Service\OrderServiceInterface;
 use App\Entity\Order;
-use App\Form\Type\OrderType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,6 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class OrderController.
  */
 #[Route('/orders')]
+#[IsGranted('ROLE_ADMIN')]
 class OrderController extends AbstractController
 {
     /**
@@ -54,19 +56,11 @@ class OrderController extends AbstractController
     )]
     public function index(Request $request): Response
     {
-        if ($this->isGranted('ROLE_ADMIN')) {
-            $pagination = $this->orderService->getPaginatedList(
-                $request->query->getInt('page', 1)
-            );
-
-            return $this->render('order/index.html.twig', ['pagination' => $pagination]);
-        }
-        $this->addFlash(
-            'warning',
-            $this->translator->trans('message.page_not_found')
+        $pagination = $this->orderService->getPaginatedList(
+            $request->query->getInt('page', 1)
         );
 
-        return $this->redirectToRoute('item_index');
+        return $this->render('order/index.html.twig', ['pagination' => $pagination]);
     }
 
     /**
@@ -80,38 +74,30 @@ class OrderController extends AbstractController
     #[Route('/{id}/accept', name: 'order_accept', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT')]
     public function accept(Request $request, Order $order): Response
     {
-        if ($this->isGranted('ROLE_ADMIN')) {
-            $form = $this->createForm(OrderType::class, $order, [
+        $form = $this->createForm(FormType::class, $order, [
                 'method' => 'PUT',
                 'action' => $this->generateUrl('order_accept', ['id' => $order->getId()]),
-            ]);
-            $form->handleRequest($request);
+        ]);
+        $form->handleRequest($request);
 
-            if ($form->isSubmitted() && $form->isValid()) {
-                $this->orderService->accept($order);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->orderService->accept($order);
 
-                $this->addFlash(
-                    'success',
-                    $this->translator->trans('message.accepted_successfully')
-                );
+            $this->addFlash(
+                'success',
+                $this->translator->trans('message.accepted_successfully')
+            );
 
-                return $this->redirectToRoute('order_index');
-            }
+            return $this->redirectToRoute('order_index');
+        }
 
-            return $this->render(
-                'order/confirm.html.twig',
-                [
+        return $this->render(
+            'order/confirm.html.twig',
+            [
                 'form' => $form->createView(),
                 'order' => $order,
                 ]
-            );
-        }
-        $this->addFlash(
-            'warning',
-            $this->translator->trans('message.page_not_found')
         );
-
-        return $this->redirectToRoute('item_index');
     }
 
     /**
@@ -125,38 +111,30 @@ class OrderController extends AbstractController
     #[Route('/{id}/deny', name: 'order_deny', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT')]
     public function deny(Request $request, Order $order): Response
     {
-        if ($this->isGranted('ROLE_ADMIN')) {
-            $form = $this->createForm(OrderType::class, $order, [
+        $form = $this->createForm(FormType::class, $order, [
                 'method' => 'PUT',
                 'action' => $this->generateUrl('order_deny', ['id' => $order->getId()]),
-            ]);
-            $form->handleRequest($request);
+        ]);
+        $form->handleRequest($request);
 
-            if ($form->isSubmitted() && $form->isValid()) {
-                $this->orderService->deny($order);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->orderService->deny($order);
 
-                $this->addFlash(
-                    'success',
-                    $this->translator->trans('message.denied_successfully')
-                );
+            $this->addFlash(
+                'success',
+                $this->translator->trans('message.denied_successfully')
+            );
 
-                return $this->redirectToRoute('order_index');
-            }
+            return $this->redirectToRoute('order_index');
+        }
 
-            return $this->render(
-                'order/confirm.html.twig',
-                [
+        return $this->render(
+            'order/confirm.html.twig',
+            [
                 'form' => $form->createView(),
                 'order' => $order,
                 ]
-            );
-        }
-        $this->addFlash(
-            'warning',
-            $this->translator->trans('message.page_not_found')
         );
-
-        return $this->redirectToRoute('item_index');
     }
 
     /**
@@ -170,38 +148,30 @@ class OrderController extends AbstractController
     #[Route('/{id}/return', name: 'order_return', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT')]
     public function return(Request $request, Order $order): Response
     {
-        if ($this->isGranted('ROLE_ADMIN')) {
-            $form = $this->createForm(OrderType::class, $order, [
+        $form = $this->createForm(FormType::class, $order, [
                 'method' => 'PUT',
                 'action' => $this->generateUrl('order_return', ['id' => $order->getId()]),
-            ]);
-            $form->handleRequest($request);
+        ]);
+        $form->handleRequest($request);
 
-            if ($form->isSubmitted() && $form->isValid()) {
-                $this->orderService->return($order);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->orderService->return($order);
 
-                $this->addFlash(
-                    'success',
-                    $this->translator->trans('message.returned_successfully')
-                );
+            $this->addFlash(
+                'success',
+                $this->translator->trans('message.returned_successfully')
+            );
 
-                return $this->redirectToRoute('order_index');
-            }
+            return $this->redirectToRoute('order_index');
+        }
 
-            return $this->render(
-                'order/confirm.html.twig',
-                [
+        return $this->render(
+            'order/confirm.html.twig',
+            [
                 'form' => $form->createView(),
                 'order' => $order,
                 ]
-            );
-        }
-        $this->addFlash(
-            'warning',
-            $this->translator->trans('message.page_not_found')
         );
-
-        return $this->redirectToRoute('item_index');
     }
 
     /**
@@ -219,17 +189,9 @@ class OrderController extends AbstractController
     )]
     public function show(Order $order): Response
     {
-        if ($this->isGranted('ROLE_ADMIN')) {
-            return $this->render(
-                'order/show.html.twig',
-                ['order' => $order]
-            );
-        }
-        $this->addFlash(
-            'warning',
-            $this->translator->trans('message.page_not_found')
+        return $this->render(
+            'order/show.html.twig',
+            ['order' => $order]
         );
-
-        return $this->redirectToRoute('item_index');
     }
 }

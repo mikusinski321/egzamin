@@ -21,7 +21,7 @@
                 <tr>
                 <td>{{ item.id }}</td>
                 <td>{{ item.item.title }}</td>
-                <td>{{ item.status.name }}</td><td>
+                <td>{{ item.status.name|trans }}</td><td>
                 {% if(item.status.id==0) %}
                 <a href={{url('order_accept',{'id':item.id})}} title="{{'message.order_accept'|trans}}">{{'message.order_accept'|trans}}</a>
                 <a href={{url('order_deny',{'id':item.id})}} title="{{'message.order_deny'|trans}}">{{'message.order_deny'|trans}}</a>

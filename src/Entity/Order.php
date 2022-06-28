@@ -37,6 +37,7 @@ class Order
      */
     #[ORM\Column(type: 'string', length: 45)]
     #[Assert\Type('string')]
+    #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 45)]
     private ?string $comment = null;
 
@@ -69,6 +70,8 @@ class Order
      * @var string|null
      */
     #[ORM\Column(type: 'string', length: 45, nullable: true)]
+    #[Assert\Type('string')]
+    #[Assert\NotBlank]
     #[Assert\Length(min: 3, max: 45)]
     private ?string $nick;
 
@@ -78,6 +81,7 @@ class Order
      * @var Item|null
      */
     #[ORM\ManyToOne(targetEntity: Item::class)]
+    #[Assert\NotBlank]
     private ?Item $item = null;
 
     /**
@@ -86,6 +90,7 @@ class Order
      * @var Status|null
      */
     #[ORM\ManyToOne(targetEntity: Status::class)]
+    #[Assert\NotBlank]
     private ?Status $status = null;
 
     /**

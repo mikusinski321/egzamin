@@ -8,7 +8,9 @@ namespace App\Controller;
 use App\Service\CategoryServiceInterface;
 use App\Form\Type\CategoryType;
 use App\Entity\Category;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -73,35 +75,28 @@ class CategoryController extends AbstractController
         name: 'category_create',
         methods: 'GET|POST',
     )]
+    #[IsGranted('ROLE_ADMIN')]
     public function create(Request $request): Response
     {
-        if ($this->isGranted('ROLE_ADMIN')) {
-            $category = new Category();
-            $form = $this->createForm(CategoryType::class, $category);
-            $form->handleRequest($request);
+        $category = new Category();
+        $form = $this->createForm(CategoryType::class, $category);
+        $form->handleRequest($request);
 
-            if ($form->isSubmitted() && $form->isValid()) {
-                $this->categoryService->save($category);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->categoryService->save($category);
 
-                $this->addFlash(
-                    'success',
-                    $this->translator->trans('message.created_successfully')
-                );
-
-                return $this->redirectToRoute('category_index');
-            }
-
-            return $this->render(
-                'category/create.html.twig',
-                ['form' => $form->createView()]
+            $this->addFlash(
+                'success',
+                $this->translator->trans('message.created_successfully')
             );
-        }
-        $this->addFlash(
-            'warning',
-            $this->translator->trans('message.page_not_found')
-        );
 
-        return $this->redirectToRoute('category_index');
+            return $this->redirectToRoute('category_index');
+        }
+
+        return $this->render(
+            'category/create.html.twig',
+            ['form' => $form->createView()]
+        );
     }
 
     /**
@@ -113,40 +108,33 @@ class CategoryController extends AbstractController
      * @return Response HTTP response
      */
     #[Route('/{id}/edit', name: 'category_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT')]
+    #[IsGranted('ROLE_ADMIN')]
     public function edit(Request $request, Category $category): Response
     {
-        if ($this->isGranted('ROLE_ADMIN')) {
-            $form = $this->createForm(CategoryType::class, $category, [
+        $form = $this->createForm(CategoryType::class, $category, [
                 'method' => 'PUT',
                 'action' => $this->generateUrl('category_edit', ['id' => $category->getId()]),
-            ]);
-            $form->handleRequest($request);
+        ]);
+        $form->handleRequest($request);
 
-            if ($form->isSubmitted() && $form->isValid()) {
-                $this->categoryService->save($category);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->categoryService->save($category);
 
-                $this->addFlash(
-                    'success',
-                    $this->translator->trans('message.created_successfully')
-                );
+            $this->addFlash(
+                'success',
+                $this->translator->trans('message.created_successfully')
+            );
 
-                return $this->redirectToRoute('category_index');
-            }
+            return $this->redirectToRoute('category_index');
+        }
 
-            return $this->render(
-                'category/edit.html.twig',
-                [
+        return $this->render(
+            'category/edit.html.twig',
+            [
                 'form' => $form->createView(),
                 'category' => $category,
                 ]
-            );
-        }
-        $this->addFlash(
-            'warning',
-            $this->translator->trans('message.page_not_found')
         );
-
-        return $this->redirectToRoute('category_index');
     }
 
     /**
@@ -158,45 +146,38 @@ class CategoryController extends AbstractController
      * @return Response HTTP response
      */
     #[Route('/{id}/delete', name: 'category_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|DELETE')]
+    #[IsGranted('ROLE_ADMIN')]
     public function delete(Request $request, Category $category): Response
     {
-        if ($this->isGranted('ROLE_ADMIN')) {
-            if (!$this->categoryService->canBeDeleted($category)) {
-                $this->addFlash(
-                    'warning',
-                    $this->translator->trans('message.category_contains_items')
-                );
+        if (!$this->categoryService->canBeDeleted($category)) {
+            $this->addFlash(
+                'warning',
+                $this->translator->trans('message.category_contains_items')
+            );
 
-                return $this->redirectToRoute('category_index');
-            }
-            $form = $this->createForm(CategoryType::class, $category, [
+            return $this->redirectToRoute('category_index');
+        }
+        $form = $this->createForm(FormType::class, $category, [
                 'method' => 'DELETE',
                 'action' => $this->generateUrl('category_delete', ['id' => $category->getId()]),
-            ]);
-            $form->handleRequest($request);
+        ]);
+        $form->handleRequest($request);
 
-            if ($form->isSubmitted() && $form->isValid()) {
-                $this->categoryService->delete($category);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->categoryService->delete($category);
 
-                $this->addFlash(
-                    'success',
-                    $this->translator->trans('message.deleted_successfully')
-                );
+            $this->addFlash(
+                'success',
+                $this->translator->trans('message.deleted_successfully')
+            );
 
-                return $this->redirectToRoute('category_index');
-            }
+            return $this->redirectToRoute('category_index');
+        }
 
-            return $this->render('category/delete.html.twig', [
+        return $this->render('category/delete.html.twig', [
                 'form' => $form->createView(),
                 'category' => $category,
-            ]);
-        }
-        $this->addFlash(
-            'warning',
-            $this->translator->trans('message.page_not_found')
-        );
-
-        return $this->redirectToRoute('category_index');
+        ]);
     }
 
     /**

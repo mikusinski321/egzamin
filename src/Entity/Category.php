@@ -37,7 +37,7 @@ class Category
     #[ORM\Column(type: 'string', length: 45)]
     #[Assert\Type('string')]
     #[Assert\NotBlank]
-    #[Assert\Length(min: 2, max: 40)]
+    #[Assert\Length(min: 2, max: 45)]
     private ?string $name = null;
 
     /**

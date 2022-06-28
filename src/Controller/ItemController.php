@@ -11,7 +11,9 @@ use App\Form\Type\ItemType;
 use App\Form\Type\OrderType;
 use App\Entity\Item;
 use App\Entity\Order;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -79,35 +81,28 @@ class ItemController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[Route('/create', name: 'item_create', methods: 'GET|POST', )]
+    #[Route('/create', name: 'item_create', methods: 'GET|POST')]
+    #[IsGranted('ROLE_ADMIN')]
     public function create(Request $request): Response
     {
-        if ($this->isGranted('ROLE_ADMIN')) {
-            $item = new Item();
-            $form = $this->createForm(ItemType::class, $item, ['action' => $this->generateUrl('item_create')]);
-            $form->handleRequest($request);
+        $item = new Item();
+        $form = $this->createForm(ItemType::class, $item, ['action' => $this->generateUrl('item_create')]);
+        $form->handleRequest($request);
 
-            if ($form->isSubmitted() && $form->isValid()) {
-                $this->itemService->save($item);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->itemService->save($item);
 
-                $this->addFlash(
-                    'success',
-                    $this->translator->trans('message.created_successfully')
-                );
+            $this->addFlash(
+                'success',
+                $this->translator->trans('message.created_successfully')
+            );
 
-                return $this->redirectToRoute('item_index');
-            }
-
-            return $this->render('item/create.html.twig', [
-                'form' => $form->createView(),
-            ]);
+            return $this->redirectToRoute('item_index');
         }
-        $this->addFlash(
-            'warning',
-            $this->translator->trans('message.page_not_found')
-        );
 
-        return $this->redirectToRoute('item_index');
+        return $this->render('item/create.html.twig', [
+                'form' => $form->createView(),
+        ]);
     }
 
     /**
@@ -119,38 +114,30 @@ class ItemController extends AbstractController
      * @return Response HTTP response
      */
     #[Route('/{id}/edit', name: 'item_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT')]
+    #[IsGranted('ROLE_ADMIN')]
     public function edit(Request $request, Item $item): Response
     {
-        if ($this->isGranted('ROLE_ADMIN')) {
-            $form = $this->createForm(ItemType::class, $item, [
+        $form = $this->createForm(ItemType::class, $item, [
             'method' => 'PUT',
             'action' => $this->generateUrl('item_edit', ['id' => $item->getId()]),
         ]);
-            $form->handleRequest($request);
+        $form->handleRequest($request);
 
-            if ($form->isSubmitted() && $form->isValid()) {
-                $this->itemService->save($item);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->itemService->save($item);
 
-                $this->addFlash(
-                    'success',
-                    $this->translator->trans('message.edited_successfully')
-                );
+            $this->addFlash(
+                'success',
+                $this->translator->trans('message.edited_successfully')
+            );
 
-                return $this->redirectToRoute('item_index');
-            }
-
-            return $this->render('item/edit.html.twig', [
-                'form' => $form->createView(),
-                'item' => $item,
-            ]);
+            return $this->redirectToRoute('item_index');
         }
 
-        $this->addFlash(
-            'warning',
-            $this->translator->trans('message.page_not_found')
-        );
-
-        return $this->redirectToRoute('item_index');
+        return $this->render('item/edit.html.twig', [
+                'form' => $form->createView(),
+                'item' => $item,
+        ]);
     }
 
     /**
@@ -162,46 +149,38 @@ class ItemController extends AbstractController
      * @return Response HTTP response
      */
     #[Route('/{id}/delete', name: 'item_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|DELETE')]
+    #[IsGranted('ROLE_ADMIN')]
     public function delete(Request $request, Item $item): Response
     {
-        if ($this->isGranted('ROLE_ADMIN')) {
-            if (!$this->itemService->canBeDeleted($item)) {
-                $this->addFlash(
-                    'warning',
-                    $this->translator->trans('message.orders_contains_item')
-                );
+        if (!$this->itemService->canBeDeleted($item)) {
+            $this->addFlash(
+                'warning',
+                $this->translator->trans('message.orders_contains_item')
+            );
 
-                return $this->redirectToRoute('item_index');
-            }
-            $form = $this->createForm(ItemType::class, $item, [
+            return $this->redirectToRoute('item_index');
+        }
+        $form = $this->createForm(FormType::class, $item, [
                 'method' => 'DELETE',
                 'action' => $this->generateUrl('item_delete', ['id' => $item->getId()]),
-            ]);
-            $form->handleRequest($request);
+        ]);
+        $form->handleRequest($request);
 
-            if ($form->isSubmitted() && $form->isValid()) {
-                $this->itemService->delete($item);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->itemService->delete($item);
 
-                $this->addFlash(
-                    'success',
-                    $this->translator->trans('message.deleted_successfully')
-                );
+            $this->addFlash(
+                'success',
+                $this->translator->trans('message.deleted_successfully')
+            );
 
-                return $this->redirectToRoute('item_index');
-            }
-
-            return $this->render('item/delete.html.twig', [
-                'form' => $form->createView(),
-                'item' => $item,
-            ]);
+            return $this->redirectToRoute('item_index');
         }
 
-        $this->addFlash(
-            'warning',
-            $this->translator->trans('message.page_not_found')
-        );
-
-        return $this->redirectToRoute('item_index');
+        return $this->render('item/delete.html.twig', [
+                'form' => $form->createView(),
+                'item' => $item,
+        ]);
     }
 
     /**
@@ -215,7 +194,7 @@ class ItemController extends AbstractController
     #[Route('/{id}/order', name: 'item_order', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
     public function order(Request $request, Item $item): Response
     {
-        if (0 == $item->getQuantity()) {
+        if (0 === $item->getQuantity()) {
             $this->addFlash(
                 'warning',
                 $this->translator->trans('message.page_not_found')
